@@ -28,6 +28,7 @@ public class playerController : MonoBehaviour, IDamagable
     [Header("---------------------------")]
     [SerializeField] GameObject hitEffectSpark;
     [SerializeField] GameObject muzzleFlash;
+    //added
     
 
 
@@ -152,6 +153,7 @@ public class playerController : MonoBehaviour, IDamagable
                         isDamageable.takeDamage(weaponDamage);
                 }
             }
+
             muzzleFlash.transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 350));
             muzzleFlash.SetActive(true);
             yield return new WaitForSeconds(0.05f);

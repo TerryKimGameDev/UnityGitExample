@@ -25,7 +25,13 @@ public class gamemanager : MonoBehaviour
     {
         instance = this;
         player = GameObject.FindGameObjectWithTag("Player");
+        
         playerScript = player.GetComponent<playerController>();
+
+
+
+
+
     }
 
     // Update is called once per frame
