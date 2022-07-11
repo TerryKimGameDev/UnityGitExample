@@ -2,49 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class explosives : MonoBehaviour, IDamagable
-{
 
+
+public class explosives : MonoBehaviour, Explode
+{
     [Range(5, 1000)] [SerializeField] int damage;
-    [SerializeField] GameObject explode;
+    [Range(3, 10)] [SerializeField] int radius;
+    [SerializeField] GameObject effect;
+    //[SerializeField] GameObject barrel;
 
     // Start is called before the first frame update
-
-    bool inRange;
-    Collider other;
-    IDamagable isDamageable;
-    void Awake()
+    public void explode()
     {
-        
-    }
-
-    void Start()
-    {
-
-    }
-
-
-    public void takeDamage(int dmg)
-    {   
-        Instantiate(explode, transform.position, explode.transform.rotation);
-        if (inRange)
+        for (int i = 0; i < 4; i++)
         {
-            isDamageable.takeDamage(damage);
+            Instantiate(effect, transform.position, transform.rotation);
         }
 
+        Collider[] damagableEntities = Physics.OverlapSphere(transform.position, radius);
+        foreach (Collider entity in damagableEntities)
+        {
+            if (entity.GetComponent<IDamagable>() != null /*&& entity != barrel*/)
+            {
+                entity.GetComponent<IDamagable>().takeDamage(damage);
+            }
+        }
         Destroy(gameObject);
     }
-    public void OnTriggerEnter(Collider other)
-    {
-        inRange = true;
-        isDamageable = other.GetComponent<IDamagable>();
-
-    }
-
-
-    public void OnTriggerExit(Collider other)
-    {
-        inRange = false;
-    }
-
 }

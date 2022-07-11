@@ -35,7 +35,7 @@ public class playerController : MonoBehaviour, IDamagable
     //[SerializeField] GameObject cube;
 
 
-    bool isSprint = false;
+    //bool isSprint = false;
     float playerSpeedOrig;
     int timesJumped;
     private Vector3 playerVelocity;
@@ -109,12 +109,12 @@ public class playerController : MonoBehaviour, IDamagable
     {
         if (Input.GetButtonDown("Sprint"))
         {
-            isSprint = true;
+            //isSprint = true;
             playerSpeed = playerSpeed * sprintMult;
         }
         else if (Input.GetButtonUp("Sprint"))
         {
-            isSprint = false;
+            //isSprint = false;
             playerSpeed = playerSpeedOrig;
         }
     }
@@ -125,10 +125,7 @@ public class playerController : MonoBehaviour, IDamagable
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
         if (Input.GetButtonDown("Shoot") && canshoot)
         {
-
-
             canshoot = false;
-
 
             if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)), out hit))
             {
@@ -141,6 +138,12 @@ public class playerController : MonoBehaviour, IDamagable
                 //{
                 //    Instantiate(cube, hit.point, transform.rotation);
                 //}
+
+                Explode explode = hit.collider.GetComponent<Explode>();
+                if (hit.collider.GetComponent<Explode>() != null)
+                {
+                    explode.explode();
+                }
 
                 IDamagable isDamageable = hit.collider.GetComponent<IDamagable>();
                 if (hit.collider.GetComponent<IDamagable>() != null)
