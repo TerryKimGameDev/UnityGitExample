@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour, IDamagable
 {
-
     [Header("Components")]
     [SerializeField] CharacterController controller;
-
-
 
     [Header("Player Attributes")]
     [Header("---------------------------")]
@@ -29,7 +26,7 @@ public class playerController : MonoBehaviour, IDamagable
     [SerializeField] GameObject hitEffectSpark;
     [SerializeField] GameObject muzzleFlash;
     //added
-    
+
 
 
     //[SerializeField] GameObject cube;
@@ -59,6 +56,7 @@ public class playerController : MonoBehaviour, IDamagable
         {
             MovePlayer();
             sprint();
+            selflaunch();
             StartCoroutine(shoot());
         }
     }
@@ -103,6 +101,24 @@ public class playerController : MonoBehaviour, IDamagable
         playerVelocity.y -= gravityValue * Time.deltaTime;
 
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+    void selflaunch()
+    {
+        ITarget target;
+        if (Input.GetButtonDown("Launch"))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)), out hit))
+            {
+                target = hit.collider.GetComponent<ITarget>();
+                if (hit.collider.GetComponent<ITarget>() != null)
+                {
+                    print("low");
+                    target.Launch();
+                }
+            }
+        }
     }
 
     void sprint()
@@ -215,8 +231,4 @@ public class playerController : MonoBehaviour, IDamagable
         transform.position = playerSpawnPos;
         controller.enabled = true;
     }
-
-
-
-
 }

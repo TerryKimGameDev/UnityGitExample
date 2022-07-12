@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class explosives : MonoBehaviour, Explode
 {
+    [Header("Explosive Attributes")]
+    [Header("---------------------------")]
     [Range(5, 1000)] [SerializeField] int damage;
     [Range(3, 10)] [SerializeField] int radius;
     [SerializeField] GameObject effect;
